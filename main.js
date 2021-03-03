@@ -47,7 +47,7 @@ function getTopTenCountries() {
             .attr("transform", `translate(${margin.left}, 0)`)
         .on('mouseover', function (e, d) {
             d3.select(this)
-                .attr('stroke', '#f00')
+                .attr('stroke', 'blue')
             d3.select('.info-box')
                 .attr('x', d3.select(this).attr('cx'))
                 .attr('y', d3.select(this).attr('cy'))
@@ -58,7 +58,7 @@ function getTopTenCountries() {
         })
         .on('mouseout', function (d, i) {
             d3.select(this)
-                .attr('stroke', '#000')
+                .attr('stroke', 'none')
                 d3.select('.info-box')
                     .attr('display', 'none')
         })
