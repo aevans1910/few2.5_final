@@ -2,7 +2,7 @@
 let topTenCountries = data.slice(0, 10)
 
 const margin = ({top: 0, right: 70, bottom: 0, left: 10})
-const width = 500;
+const width = 600;
 let height = 10 * (10 + 2)+ margin.bottom;
 
 function sortByProperty(data, property) {
@@ -32,7 +32,7 @@ function getTopTenCountries() {
 
     const svg = div.append("svg")
     .attr("id", "topTen")
-    .attr("viewBox", [0, 0, 500, 200])
+    .attr("viewBox", [0, 0, 500, 300])
 
     // Bars (as a whole)
     d3.select("#topTen")
@@ -46,21 +46,30 @@ function getTopTenCountries() {
             .attr("class", (d) => d.country)
             .attr("transform", `translate(${margin.left}, 0)`)
         .on('mouseover', function (e, d) {
+            console.log(e)
             d3.select(this)
-                .attr('stroke', 'blue')
+                .select("rect")
+                .attr('fill', 'red')
             d3.select('.info-box')
-                .attr('x', d3.select(this).attr('cx'))
-                .attr('y', d3.select(this).attr('cy'))
+                // .attr('x', e.pageX + 'px')
+                // .attr('y', e.pageY + 'px')
                 .attr('display', 'yes')
-                .attr('transform', `translate(${d3.select(this).attr('cx')}, ${d3.select(this).attr('cy')})`)
-            d3.select('.info-box text')
-                .text(d.gdp, d.support, d.health, d.generosity)
+                .attr('transform', `translate(${e.offsetX}, ${e.offsetY})`)
+            d3.select('.gdp-text')
+                .text(`GDP: ${d.gdp}`)
+            d3.select('.support-text')
+                .text(`Support: ${d.support}`)
+            d3.select('.health-text')
+                .text(`Health: ${d.health}`)
+            d3.select('.generosity-text')
+                .text(`Generosity: ${d.generosity}`)
         })
         .on('mouseout', function (d, i) {
             d3.select(this)
-                .attr('stroke', 'none')
+                .select("rect")
+                .attr('fill', 'rgb(33, 193, 231)')
                 d3.select('.info-box')
-                    .attr('display', 'none')
+                    // .attr('display', 'none')
         })
 
     // Bar graph bars
@@ -83,15 +92,15 @@ function getTopTenCountries() {
         .attr("fill", 'white')
         .attr('font-size', '0.5em')
 
-    const infoBox = d3.select('#svg')
+    const infoBox = d3.select('g')
         .append('g')
         .attr('class', 'info-box')
-        .attr('display', 'none')
-
-    // Make the black box 
+        // .attr('display', 'none')
+        
     infoBox.append('rect')
-        .attr(100, 100)
+        .attr('width', 100)
         .attr('height', 100)
+        .attr('fill', 'black')
 
     // Display the magnitude here
     infoBox
@@ -99,11 +108,48 @@ function getTopTenCountries() {
         .text('0.0')
         .attr('fill', 'white')
         .attr('dx', 50)
-        .attr('dy', 50)
+        .attr('dy', 30)
         .attr('text-anchor', 'middle')
-        .attr('font-size', 48)
+        .attr('font-size', 10)
         .attr('font-family', 'Helvetica')
         .attr('alignment-baseline', 'middle')
+        .attr('class', 'gdp-text')
+
+    infoBox
+        .append('text')
+        .text('0.0')
+        .attr('fill', 'white')
+        .attr('dx', 50)
+        .attr('dy', 43)
+        .attr('text-anchor', 'middle')
+        .attr('font-size', 10)
+        .attr('font-family', 'Helvetica')
+        .attr('alignment-baseline', 'middle')
+        .attr('class', 'support-text')
+
+    infoBox
+        .append('text')
+        .text('0.0')
+        .attr('fill', 'white')
+        .attr('dx', 50)
+        .attr('dy', 56)
+        .attr('text-anchor', 'middle')
+        .attr('font-size', 10)
+        .attr('font-family', 'Helvetica')
+        .attr('alignment-baseline', 'middle')
+        .attr('class', 'health-text')
+
+    infoBox
+        .append('text')
+        .text('0.0')
+        .attr('fill', 'white')
+        .attr('dx', 50)
+        .attr('dy', 70)
+        .attr('text-anchor', 'middle')
+        .attr('font-size', 10)
+        .attr('font-family', 'Helvetica')
+        .attr('alignment-baseline', 'middle')
+        .attr('class', 'generosity-text')
 }
 
 
